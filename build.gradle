@@ -1,0 +1,120 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'jetty'
+apply plugin: "jacoco"
+apply plugin: 'idea'
+apply plugin: 'war'
+apply plugin: 'sonar-runner'
+
+
+
+group = 'org.codehaus.sonar'
+version = '1.0-SNAPSHOT'
+
+description = """Simple Java Maven and Gradle Project"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Enable Gradle Daemon
+// touch ~/.gradle/gradle.properties && echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
+// (if not exist "%HOMEPATH%/.gradle" mkdir "%HOMEPATH%/.gradle") && (echo foo >> "%HOMEPATH%/.gradle/gradle.properties")
+// -DproxyHost=10.10.10.78 -DproxyPort=8080
+
+
+repositories {
+    maven { url "http://repo.maven.apache.org/maven2" }
+    // maven { url "http://localhost:8081/nexus/content/groups/public/" }
+    // flatDir { dirs 'lib' }
+}
+
+dependencies {
+	// compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.6'
+	compile group: 'log4j', name: 'log4j', version: '1.2.12'
+    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+	testCompile group: 'org.jmockit', name: 'jmockit', version:'1.21'
+	testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version:'2.4.3'
+    testCompile group: 'junit', name: 'junit', version:'4.11'
+    testCompile group: 'info.cukes', name: 'cucumber-junit', version:'1.2.3'
+    testCompile group: 'info.cukes', name: 'cucumber-java8', version:'1.2.3'
+
+    // compile fileTree(dir: 'lib', include: '*.jar')
+}
+
+// sourceSets {
+//     main {
+//         java { srcDir 'src/main/java' }
+//     }
+    // test {
+    // 	java {
+    // 		srcDir 'src/test1'
+    // 	}
+    // }
+// }
+
+sourceSets.all {
+    println name
+}
+
+tasks.withType(JavaCompile) {
+		options.encoding = "UTF-8"
+}
+
+task zip(type: Zip) {
+	String today = new Date().format("yyyyMMdd")
+	archiveName = "${today}.zip"
+
+	from ('build/classes/main') {
+		include '**'
+		into 'binaries'
+	}
+	from ('lib') {
+		include 'a.jar'
+		include 'junit-4.11.jar'
+		into '/libraries'
+	}
+}
+
+war {
+		from('html') {
+				include '**'
+				include '*.html'
+				exclude 'WEB-INF'
+				into('/')
+		}
+}
+
+///////////////
+ext {
+	user = 'jacky'
+}
+
+task hello << {   
+  println "Hello World!"
+  println user + version
+  8.times {i->print i}
+}
+
+class MyTask extends DefaultTask {
+	@Optional
+	String message = 'Uperform'
+
+	@TaskAction
+	def world() {
+		println "hey, ${message}"
+	}
+}
+
+task world(type:MyTask) {
+	dependsOn hello
+}
+
+task earth(type:MyTask) {
+	message = 'Agile'
+}
+
+task showCache << {
+
+	configurations.compile.each {println it}
+	configurations.testCompile.each {println it}
+}
