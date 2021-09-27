@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.codehaus.sonar</groupId>
-  <artifactId>example-java-maven</artifactId>
+  <artifactId>Sonar-Maven-Demo</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>Simple Java Maven Project</name>
+  <name>Sonar Maven Project</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -79,7 +79,6 @@
                   <compilerArgument>-Werror</compilerArgument>
               </configuration>
           </plugin>
-
           <plugin>
             <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin, 
             visit https://github.com/groovy/GMavenPlus/wiki -->
