@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.codehaus.sonar</groupId>
-  <artifactId>example-java-maven</artifactId>
+  <groupId>com.example.sonardemo</groupId>
+  <artifactId>sonar-maven-demo</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>Sonar Maven Project</name>
+  <name>Sonar Maven Demo</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,7 +57,12 @@
         <version>1.2.3</version>
         <scope>test</scope>
     </dependency>
-    <dependency>
+      <dependency>
+          <groupId>org.codehaus.sonar</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>5.1</version>
+      </dependency>
+      <dependency>
         <groupId>info.cukes</groupId>
         <artifactId>cucumber-java8</artifactId>
         <version>1.2.3</version>
@@ -79,6 +84,8 @@
                   <compilerArgument>-Werror</compilerArgument>
               </configuration>
           </plugin>
+          <!-- https://mvnrepository.com/artifact/org.codehaus.sonar/sonar-maven-plugin -->
+
           <plugin>
             <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin, 
             visit https://github.com/groovy/GMavenPlus/wiki -->
